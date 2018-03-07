@@ -1,5 +1,5 @@
 from lib.jobs import Jobs
-from lib.schedule_frequency import Frequency
+from lib.frequency import Frequency
 
 
 def job():
@@ -8,13 +8,17 @@ def job():
 
 myobjectx = Jobs()
 
-myobjectx.add(Frequency.daily, "10:05", job)
+myobjectx.add(Frequency.tuesday, "10:09", job)
 
 print(myobjectx.list())
 
+myobjectx.run()
 #myobjectx.clear()
 
 #print(myobjectx.list())
 
 #print(myobjectx.list())
 
+
+
+#schedule.every(1).minutes.do(function)
