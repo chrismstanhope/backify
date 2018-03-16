@@ -1,8 +1,11 @@
+import csv
+import json
 from lib.storage.storage import Storage
+from lib.storage.FileTypes import FileType
 
 class Local(Storage):
 
-    def __init__(self, source, extension = 'json'):
+    def __init__(self, source, extension = FileType.json):
         self._source = source
         self._extension = extension
 
@@ -10,5 +13,13 @@ class Local(Storage):
         folder_path = '/Users/danstanhope/Documents/' #this will come from config
         file_name = self.fileName()
 
+        json_data = '{"name": "smith", "email": "smithjack @ gmail.com"}'
+
         with open(folder_path + file_name, 'w') as file:
-            file.write('testing th local storage write');
+
+            if(self._extension == FileType.json):
+                print('json')
+            elif(self._extension == FileType.json):
+                print('csv')
+
+            file.write(self._source);
