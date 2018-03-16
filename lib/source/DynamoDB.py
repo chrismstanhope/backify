@@ -1,6 +1,9 @@
+import ast
 import json
 from lib.configuration import read_configuration
 import boto3
+from lib.source.DecimalEncoder import DecimalEncoder
+
 
 class DynamoDB:
     _table_name = ""
@@ -25,5 +28,5 @@ class DynamoDB:
 
     def create_backup(self, location):
         results = self.getTableItems()
-        return json.dumps(results.items)
+        return json.dumps(results["Items"], cls=DecimalEncoder)
 

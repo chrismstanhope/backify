@@ -11,4 +11,4 @@ class Storage:
     def fileName(self):
         date = datetime.datetime.now().strftime("%Y-%m-%d-%H")
 
-        return self._source + "_" + date + "." + self._extension
+        return 'test' + "_" + date + "." + self._extension

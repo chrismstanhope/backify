@@ -10,7 +10,7 @@ class Local(Storage):
         self._extension = extension
 
     def write(self):
-        folder_path = '/Users/danstanhope/Documents/' #this will come from config
+        folder_path = '/Users/stanhope/Documents/' #this will come from config
         file_name = self.fileName()
 
         json_data = '{"name": "smith", "email": "smithjack @ gmail.com"}'
