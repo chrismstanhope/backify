@@ -3,7 +3,7 @@ from lib.configuration import write_configuration
 
 
 @click.command()
-@click.echo("Please provide your AWS Credentials")
+##@click.echo("Please provide your AWS Credentials")
 @click.option('--aws_access_key_id', prompt='AWS Access Key ID')
 @click.option('--aws_secret_access_key', prompt='AWS Secret Access Key')
 @click.option('--default_region_name', prompt='Default region name')

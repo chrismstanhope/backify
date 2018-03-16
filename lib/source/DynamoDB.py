@@ -1,3 +1,4 @@
+import json
 from lib.configuration import read_configuration
 import boto3
 
@@ -9,16 +10,20 @@ class DynamoDB:
         self._table_name = table_name
         self._aws_config = read_configuration.read_config()
 
-    def getAWSClient(self):
-        return boto3.client(
-            'DyanmoDB',
+    def getAWSResource(self):
+        return boto3.resource(
+            'dynamodb',
             aws_access_key_id=self._aws_config["aws_access_key_id"],
-            aws_secret_access_key=self._aws_config["aws_secret_access_key"]
+            aws_secret_access_key=self._aws_config["aws_secret_access_key"],
+            region_name=self._aws_config['default_region_name']
         )
+    def getTableItems(self):
+        resource = self.getAWSResource()
+        table = resource.Table(self._table_name)
+        results = table.scan()
+        return results
 
-    def read(self):
-        client = self.getAWSClient()
-        client.response = client.create_backup(
-            TableName='string',
-            BackupName='string'
-        )
+    def create_backup(self, location):
+        results = self.getTableItems()
+        return json.dumps(results.items)
+
