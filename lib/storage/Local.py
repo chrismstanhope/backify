@@ -1,10 +1,12 @@
+import csv
+import json
 from lib.storage.Storage import Storage
 from lib.storage.FileTypes import FileType
 from lib.storage.Converter import Converter
 
 class Local(Storage):
 
-    def __init__(self, source, extension = FileType.json):
+    def __init__(self, source, extension = FileType.csv):
         self._source = source
         self._extension = extension
 
@@ -15,11 +17,16 @@ class Local(Storage):
         with open(folder_path + file_name, 'w') as file:
 
             if(self._extension == FileType.json):
-                Converter.toJSON(self._source)
+                print("to json")
             elif(self._extension == FileType.csv):
-                Converter.toCSV(self._source)
+                json_source = json.loads(self._source)
+
+                writer = csv.DictWriter(file, json_source[0].keys())
+                writer.writeheader()
+                writer.writerows(json_source)
+
             elif(self._extension == FileType.xml):
-                Converter.toXML(self._source)
+                print("xml")
             else:
                 print("invalid extension")
 
