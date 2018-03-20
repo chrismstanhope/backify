@@ -2,7 +2,7 @@ import time
 import uuid
 import schedule
 import datetime
-from lib.job.frequency import Frequency
+from lib.job.Frequency import Frequency
 
 class Jobs:
     def uuid(self):

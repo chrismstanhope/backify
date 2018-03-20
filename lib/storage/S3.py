@@ -1,4 +1,4 @@
-from lib.storage.storage import Storage
+from lib.storage.Storage import Storage
 
 class S3(Storage):
 
