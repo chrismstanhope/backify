@@ -1,33 +1,42 @@
 import csv
 import json
+import gzip
+import codecs
 from lib.storage.Storage import Storage
 from lib.storage.FileTypes import FileType
-from lib.storage.Converter import Converter
+
 
 class Local(Storage):
 
-    def __init__(self, source, extension = FileType.csv):
+    def __init__(self, source, extension=FileType.json, compress=False):
+        self._compress = compress
         self._source = source
         self._extension = extension
 
-    def write(self):
-        folder_path = '/Users/danstanhope/Documents/' #this will come from config
+        folder_path = '/Users/danstanhope/Documents/'  # this will come from config
         file_name = self.fileName()
 
-        with open(folder_path + file_name, 'w') as file:
+        if(self._compress):
+            self._file_object = gzip.open(folder_path + file_name + '.gz', 'w')
+        else:
+            self._file_object = open(folder_path + file_name, 'w')
 
-            if(self._extension == FileType.json):
-                print("to json")
-            elif(self._extension == FileType.csv):
-                json_source = json.loads(self._source)
+    def write(self):
+        if(self._extension == FileType.json):
+            self.__write_json(self._source)
+        elif(self._extension == FileType.csv):
+            self.write_csv(self._source)
+        else:
+            print("invalid extension")
 
-                writer = csv.DictWriter(file, json_source[0].keys())
-                writer.writeheader()
-                writer.writerows(json_source)
+    def __write_csv(self, source):
+        with self._file_object as f:
+            json_source = json.loads(source)
 
-            elif(self._extension == FileType.xml):
-                print("xml")
-            else:
-                print("invalid extension")
+            writer = csv.DictWriter(f, json_source[0].keys())
+            writer.writeheader()
+            writer.writerows(json_source)
 
-            #file.write(self._source);
+    def __write_json(self, source):
+        with self._file_object as f:
+            json.dump(source, codecs.getwriter('utf-8')(f), sort_keys=True, indent=4, ensure_ascii=False)

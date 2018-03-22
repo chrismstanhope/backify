@@ -1,4 +1,6 @@
+import json
 import datetime
+
 
 class Storage:
     _source = ''
@@ -12,3 +14,14 @@ class Storage:
         date = datetime.datetime.now().strftime("%Y-%m-%d-%H")
 
         return 'test' + "_" + date + "." + self._extension
+
+    @staticmethod
+    def toJSON(source):
+        is_json = True
+
+        try:
+            json.loads(source)
+        except ValueError, e:
+            is_json = False
+
+        return is_json
