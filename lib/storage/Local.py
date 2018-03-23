@@ -8,7 +8,7 @@ from lib.storage.FileTypes import FileType
 
 class Local(Storage):
 
-    def __init__(self, source, extension=FileType.json, compress=False):
+    def __init__(self, source, extension=FileType.csv, compress=True):
         self._compress = compress
         self._source = source
         self._extension = extension
@@ -25,7 +25,7 @@ class Local(Storage):
         if(self._extension == FileType.json):
             self.__write_json(self._source)
         elif(self._extension == FileType.csv):
-            self.write_csv(self._source)
+            self.__write_csv(self._source)
         else:
             print("invalid extension")
 

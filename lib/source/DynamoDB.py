@@ -1,9 +1,7 @@
-import ast
 import json
-from lib.configuration import read_configuration
 import boto3
+from lib.configuration import read_configuration
 from lib.source.DecimalEncoder import DecimalEncoder
-
 
 class DynamoDB:
     _table_name = ""
