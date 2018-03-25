@@ -3,6 +3,7 @@ from lib.job.Jobs import Jobs
 from lib.job.Frequency import Frequency
 from lib.source.DynamoDB import DynamoDB
 from lib.storage.Local import Local
+from lib.storage.S3 import S3
 from lib.storage.Storage import Storage
 
 
@@ -12,7 +13,10 @@ class DynamoDBTest(unittest.TestCase):
         dynamoDB = DynamoDB('test_table')
         data = dynamoDB.create_backup("test")
         print data
-        storage = Local(data)
+        #storage = Local(data)
+        #storage.write()
+
+        storage = S3(data)
         storage.write()
 
     def test_backup(self):
@@ -21,5 +25,5 @@ class DynamoDBTest(unittest.TestCase):
 
     def test_scheduler(self):
         job = Jobs()
-        job.add(Frequency.day, '21:24', self.backup)
+        job.add(Frequency.day, '17:57', self.backup)
         job.run()
