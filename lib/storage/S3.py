@@ -8,10 +8,11 @@ from lib.configuration import read_configuration
 
 class S3(Storage):
 
-    def __init__(self, source, extension=FileType.csv, compress=True):
+    def __init__(self, source, bucket_name, extension=FileType.csv, compress=True):
         self._compress = compress
         self._source = source
         self._extension = extension
+        self._bucket_name = bucket_name
         self._file_name = self.file_name()
         self._aws_config = read_configuration.read_config()
         self._folder_path = "{0}/.backify/tmp/".format(expanduser("~"))
@@ -41,6 +42,6 @@ class S3(Storage):
 
         file_source = open(self.get_full_filepath(), 'rb')
 
-        resource.Bucket('dynamodb-backify').put_object(Key=self._file_name, Body=file_source)
+        resource.Bucket(self._bucket_name).put_object(Key=self._file_name, Body=file_source)
 
         self.remove(self.get_full_filepath())

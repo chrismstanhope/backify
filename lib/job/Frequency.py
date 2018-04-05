@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Frequency(Enum):
     now = 'now'
     day = 'day'

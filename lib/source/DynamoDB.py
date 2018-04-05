@@ -24,7 +24,7 @@ class DynamoDB:
         results = table.scan()
         return results
 
-    def create_backup(self, location):
+    def create_backup(self):
         results = self.getTableItems()
         return json.dumps(results["Items"], cls=DecimalEncoder)
 

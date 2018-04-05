@@ -4,12 +4,12 @@ from lib.storage.FileTypes import FileType
 
 class Local(Storage):
 
-    def __init__(self, source, extension=FileType.csv, compress=True):
+    def __init__(self, source, folder_path, extension=FileType.csv, compress=True):
         self._compress = compress
         self._source = source
         self._extension = extension
         self._file_name = self.file_name()
-        self._folder_path = '/Users/danstanhope/Documents/'  # this will come from config
+        self._folder_path = folder_path
 
     def write(self):
         if self._extension == FileType.json:
