@@ -11,10 +11,7 @@ class Storage:
     def file_name(self):
         date = datetime.datetime.now().strftime("%Y-%m-%d-%H")
 
-        if self._compress:
-            return 'test' + "_" + date + "." + self._extension + '.gz'
-        else:
-            return 'test' + "_" + date + "." + self._extension
+        return 'test' + "_" + date + "." + self._extension
 
     def get_file_object(self, path):
         if self._compress:

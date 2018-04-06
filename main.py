@@ -11,7 +11,7 @@ from lib.storage.backup import backup
 @click.command()
 @click.option('--aws_access_key_id', prompt='AWS Access Key ID')
 @click.option('--aws_secret_access_key', prompt='AWS Secret Access Key')
-@click.option('--default_region_name', prompt='Default region name')
+@click.option('tes--default_region_name', prompt='Default region name')
 @click.option('--default_output_format', prompt='Default output format')
 def configuration(aws_access_key_id, aws_secret_access_key, default_region_name, default_output_format):
     try:
