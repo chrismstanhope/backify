@@ -1,3 +1,4 @@
+import os
 import click
 import datetime
 
@@ -43,6 +44,11 @@ def run(table_name, output_type, output_destination,):
         path = click.prompt("Please enter bucket location")
     elif output_destination.lower() == 'local':
         path = click.prompt("Please Enter folder location")
+        if not os.path.exists(path):
+            if click.prompt("Directoy Doesn't Exist can I create it? (y|n)") == "y":
+                os.makedirs(path)
+            else:
+                exit()
     else:
         print "Output Type must be local or s3"
         exit()
