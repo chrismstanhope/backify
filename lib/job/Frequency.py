@@ -3,7 +3,7 @@ from enum import Enum
 
 class Frequency(Enum):
     now = 'now'
-    day = 'day'
+    daily = 'daily'
     monday = 'monday'
     tuesday = 'tuesday'
     wednesday = 'wednesday'

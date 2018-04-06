@@ -22,13 +22,22 @@ def configuration(aws_access_key_id, aws_secret_access_key, default_region_name,
 
 
 @click.command()
-@click.option('--frequency', prompt='Please Enter the Frequency')
 @click.option('--table_name', prompt='Enter the table name')
 @click.option('--output_type', prompt='Please specify the output type (json | csv)', default='csv')
 @click.option('--output_destination', prompt='Please specify the output destination (local | s3)', default='local')
-def run(frequency, table_name, output_type, output_destination,):
+def run(table_name, output_type, output_destination,):
     path = None
     time = None
+
+    frequency = click.prompt(
+        'Please Enter Frequency  (now | daily | monday | tuesday | wednesday | thursday | friday | saturday| sunday)')
+    if not hasattr(Frequency, frequency.lower()):
+        print "Please Enter a valid Frequency: \n now | daily | monday | tuesday | wednesday | " \
+              "thursday | friday | saturday| sunday"
+        exit()
+
+    if frequency.lower() != Frequency.now:
+        time = click.prompt('Enter the time of day to backup DynamoDB(24hr)')
 
     if output_destination.lower() == 's3':
         path = click.prompt("Please enter bucket location")
@@ -42,15 +51,9 @@ def run(frequency, table_name, output_type, output_destination,):
         print "Output Type must be json or csv"
         exit()
 
-    if not hasattr(Frequency, frequency.lower()):
-        print "Please Enter a valid Frequency: \n now | day | monday | tuesday | wednesday | " \
-              "thursday | friday | saturday| sunday"
-        exit()
-    elif frequency.lower() == Frequency.now:
+    if frequency.lower() == Frequency.now:
         backup(table_name, output_destination, path, output_type.lower())
     else:
-        time = click.prompt('Enter the time of day to backup DynamoDB(24hr)')
-
         if time:
             try:
                 datetime.datetime.strptime(time, '%H:%M')
@@ -59,7 +62,7 @@ def run(frequency, table_name, output_type, output_destination,):
                 exit()
 
         job = Jobs()
-        job.add(frequency.lower(), time, backup(table_name, output_destination, path, output_type.lower()))
+        job.add(frequency.lower(), time, lambda: backup(table_name, output_destination, path, output_type.lower()))
         job.run()
 
 

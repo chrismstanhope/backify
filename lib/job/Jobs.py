@@ -25,10 +25,8 @@ class Jobs:
         self.validate_frequency(frequency)
         self.validate_function(function)
 
-        if frequency == Frequency.day:
+        if frequency == Frequency.daily:
             schedule.every().day.at(job_time).do(function).tag(uuid_tag)
-        elif frequency == Frequency.week:
-            schedule.every().week.at(job_time).do(function).tag(uuid_tag)
         elif frequency == Frequency.monday:
             schedule.every().monday.at(job_time).do(function).tag(uuid_tag)
         elif frequency == Frequency.tuesday:
