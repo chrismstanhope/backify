@@ -20,6 +20,7 @@ def configuration(aws_access_key_id, aws_secret_access_key, default_region_name,
     except Exception as e:
         print "Unable to write config to file: {0}".format(e.message)
 
+
 @click.command()
 @click.option('--frequency', prompt='Please Enter the Frequency')
 @click.option('--table_name', prompt='Enter the table name')

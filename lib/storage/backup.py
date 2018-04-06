@@ -1,6 +1,6 @@
-from lib.source.DynamoDB import DynamoDB
-from lib.storage.Local import Local
 from lib.storage.S3 import S3
+from lib.storage.Local import Local
+from lib.source.DynamoDB import DynamoDB
 
 
 def backup(table_name, location, location_path, file_type):

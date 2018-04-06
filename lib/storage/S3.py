@@ -18,7 +18,7 @@ class S3(Storage):
         self._folder_path = "{0}/.backify/tmp/".format(expanduser("~"))
         self._directory = os.path.dirname(self._folder_path)
 
-    def getAWSResource(self):
+    def get_aws_resource(self):
         return boto3.resource(
             's3',
             aws_access_key_id=self._aws_config["aws_access_key_id"],
@@ -27,7 +27,7 @@ class S3(Storage):
         )
 
     def write(self):
-        resource = self.getAWSResource()
+        resource = self.get_aws_resource()
 
         if not os.path.exists(self._directory):
             os.makedirs(self._directory)

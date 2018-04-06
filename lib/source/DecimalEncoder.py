@@ -1,5 +1,5 @@
-import decimal
 import json
+import decimal
 
 
 class DecimalEncoder(json.JSONEncoder):

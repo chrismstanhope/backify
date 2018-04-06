@@ -5,6 +5,7 @@ import gzip
 import codecs
 import datetime
 
+
 class Storage:
 
     def file_name(self):

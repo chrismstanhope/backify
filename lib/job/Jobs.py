@@ -4,6 +4,7 @@ import schedule
 import datetime
 from lib.job.Frequency import Frequency
 
+
 class Jobs:
     def uuid(self):
         return str(uuid.uuid4())
@@ -11,18 +12,18 @@ class Jobs:
     def list(self):
         return schedule.jobs
 
-    def clear(self, tag = ''):
+    def clear(self, tag=''):
         if tag != '':
             schedule.clear(tag)
         else:
             schedule.clear()
 
     def add(self, frequency, job_time, function):
-        job_time = self.validateTime(job_time)
+        job_time = self.validate_time(job_time)
         uuid_tag = self.uuid()
 
-        self.validateFrequency(frequency)
-        self.validateFunction(function)
+        self.validate_frequency(frequency)
+        self.validate_function(function)
 
         if frequency == Frequency.day:
             schedule.every().day.at(job_time).do(function).tag(uuid_tag)
@@ -42,16 +43,13 @@ class Jobs:
             schedule.every().saturday.at(job_time).do(function).tag(uuid_tag)
         elif frequency == Frequency.sunday:
             schedule.every().sunday.at(job_time).do(function).tag(uuid_tag)
-        elif frequency == Frequency.now:
-            #TODO implement a way to run job after download and not schedule
-            print("now")
 
     def run(self):
         while True:
             schedule.run_pending()
             time.sleep(1)
 
-    def validateTime(self, time):
+    def validate_time(self, time):
         if(len(time.split(":")) == 1):
             time = time + ":00"
 
@@ -64,10 +62,10 @@ class Jobs:
         except ValueError:
             raise TypeError('time must be in specified in H:M format')
 
-    def validateFrequency(self, frequency):
+    def validate_frequency(self, frequency):
         if not hasattr(Frequency, frequency):
             raise TypeError('frequency must be an instance of Frequency Enum')
 
-    def validateFunction(self, function):
+    def validate_function(self, function):
         if not callable(function):
             raise TypeError('function must be passed in order to schedule job')
