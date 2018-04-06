@@ -26,8 +26,8 @@ def configuration(aws_access_key_id, aws_secret_access_key, default_region_name,
 @click.option('--output_type', prompt='Please specify the output type (json | csv)', default='csv')
 @click.option('--output_destination', prompt='Please specify the output destination (local | s3)', default='local')
 def run(frequency, table_name, output_type, output_destination,):
-    path = ""
-    time = ""
+    path = None
+    time = None
 
     if output_destination.lower() == 's3':
         path = click.prompt("Please enter bucket location")
@@ -42,7 +42,7 @@ def run(frequency, table_name, output_type, output_destination,):
         exit()
 
     if not hasattr(Frequency, frequency.lower()):
-        print "Please Enter a valid Frequency: \n now | day | week | monday | tuesday | wednesday | " \
+        print "Please Enter a valid Frequency: \n now | day | monday | tuesday | wednesday | " \
               "thursday | friday | saturday| sunday"
         exit()
     elif frequency.lower() == Frequency.now:
@@ -50,15 +50,16 @@ def run(frequency, table_name, output_type, output_destination,):
     else:
         time = click.prompt('Enter the time of day to backup DynamoDB(24hr)')
 
-    try:
-        datetime.datetime.strptime(time, '%H:%M')
-    except ValueError:
-        print "Incorrect data format, should be %H:%M"
-        exit()
+        if time:
+            try:
+                datetime.datetime.strptime(time, '%H:%M')
+            except ValueError:
+                print "Incorrect data format, should be %H:%M"
+                exit()
 
-    job = Jobs()
-    job.add(frequency.lower(), time, backup(table_name, output_destination, path, output_type.lower()))
-    job.run()
+        job = Jobs()
+        job.add(frequency.lower(), time, backup(table_name, output_destination, path, output_type.lower()))
+        job.run()
 
 
 if __name__ == '__main__':
